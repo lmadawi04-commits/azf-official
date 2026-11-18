@@ -72,8 +72,7 @@
 
     const script = document.createElement("script");
 
-    script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
-
+script.src = "https://unpkg.com/@supabase/supabase-js@2";
     script.onload = async function () {
 
         const supabase = window.supabase.createClient(

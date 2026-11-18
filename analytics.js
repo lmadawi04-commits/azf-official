@@ -88,7 +88,7 @@
             });
 
             if (error) {
-                console.error("AZF Error:", error);
+                console.log("AZF Error:", error.message);
                 return;
             }
 

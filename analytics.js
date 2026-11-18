@@ -116,7 +116,7 @@ script.src = "https://unpkg.com/@supabase/supabase-js@2";
 
         await updateOnline();
 
-        setInterval(updateOnline, 30000);
+        setInterval(updateOnline, 10000);
     };
 
     script.onerror = function () {

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AZF OFFICIAL | Chat</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #090711;
+    color: white;
+    min-height: 100vh;
+}
+
+header {
+    height: 75px;
+    background: #110d20;
+    border-bottom: 1px solid #30204b;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6%;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: #b68aff;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    background: #241638;
+    padding: 12px 20px;
+    border-radius: 12px;
+}
+
+.container {
+    width: 92%;
+    max-width: 1200px;
+    margin: 35px auto;
+}
+
+.title {
+    margin-bottom: 25px;
+}
+
+.title h1 {
+    color: #c39aff;
+    font-size: 32px;
+}
+
+.title p {
+    color: #999;
+    margin-top: 8px;
+}
+
+.chat-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
+}
+
+.sidebar, .chat-box {
+    background: #120e1e;
+    border: 1px solid #302044;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.sidebar {
+    padding: 20px;
+}
+
+.sidebar h3 {
+    margin-bottom: 18px;
+    color: #c39aff;
+}
+
+.tab {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #21172f;
+    color: white;
+    cursor: pointer;
+    text-align: right;
+    transition: .2s;
+}
+
+.tab:hover, .tab.active {
+    background: #7845b8;
+}
+
+.friends {
+    margin-top: 25px;
+}
+
+.friend {
+    width: 100%;
+    background: #1b1529;
+    padding: 13px;
+    border-radius: 10px;
+    margin-top: 8px;
+    color: white;
+    cursor: pointer;
+    border: 1px solid transparent;
+    text-align: right;
+    transition: .2s;
+}
+
+.friend:hover {
+    background: #302044;
+    border-color: #a66ae9;
+}
+
+.friend.active {
+    background: #60369a;
+}
+
+.online {
+    color: #56e69a;
+    margin-left: 7px;
+}
+
+.chat-header {
+    padding: 20px;
+    background: #191226;
+    border-bottom: 1px solid #302044;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header h2 {
+    color: #c39aff;
+}
+
+.chat-header p {
+    color: #888;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.back-btn {
+    background: #302044;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+.messages {
+    height: 430px;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.message {
+    background: #21172f;
+    padding: 13px;
+    border-radius: 12px;
+    max-width: 80%;
+    animation: appear .25s ease;
+    word-break: break-word;
+}
+
+.message.mine {
+    background: #60369a;
+    align-self: flex-start;
+}
+
+.message strong {
+    display: block;
+    color: #d5b8ff;
+    margin-bottom: 7px;
+}
+
+.message small {
+    display: block;
+    color: #aaa;
+    margin-top: 8px;
+    font-size: 10px;
+}
+
+.message button {
+    border: none;
+    background: transparent;
+    color: #ff7777;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.input-area {
+    display: flex;
+    gap: 10px;
+    padding: 17px;
+    background: #191226;
+    border-top: 1px solid #302044;
+}
+
+.input-area input {
+    flex: 1;
+    background: #0d0916;
+    border: 1px solid #493263;
+    padding: 14px;
+    border-radius: 10px;
+    color: white;
+    outline: none;
+}
+
+.input-area button {
+    background: #874ec5;
+    border: none;
+    color: white;
+    padding: 0 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.empty {
+    text-align: center;
+    color: #777;
+    margin: auto;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media(max-width:750px) {
+    .chat-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .messages {
+        height: 350px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">AZF OFFICIAL</div>
+    <a href="index.html">العودة للرئيسية 🏠</a>
+</header>
+
+<div class="container">
+
+    <div class="title">
+        <h1>💬 مركز المحادثات</h1>
+        <p>تواصل واستمتع مع مجتمع AZF</p>
+    </div>
+
+    <div class="chat-layout">
+
+        <aside class="sidebar">
+
+            <h3>المحادثات</h3>
+
+            <button class="tab active" id="globalTab" onclick="switchChat('global')">
+                🌍 الشات العام
+            </button>
+
+            <div class="friends">
+                <h3>👥 أصدقائي</h3>
+                <div id="friendsList"></div>
+            </div>
+
+        </aside>
+
+        <section class="chat-box">
+
+            <div class="chat-header">
+                <div>
+                    <h2 id="chatTitle">🌍 الشات العام</h2>
+                    <p id="chatDescription">المحادثة العامة</p>
+                </div>
+
+                <button class="back-btn" id="backBtn" onclick="switchChat('global')" style="display:none">
+                    رجوع
+                </button>
+            </div>
+
+            <div class="messages" id="messages">
+                <div class="empty">لا توجد رسائل حتى الآن 👀</div>
+            </div>
+
+            <div class="input-area">
+                <input
+                    id="messageInput"
+                    type="text"
+                    maxlength="300"
+                    placeholder="اكتب رسالتك هنا..."
+                    onkeydown="if(event.key==='Enter') sendMessage()"
+                >
+                <button onclick="sendMessage()">إرسال ➤</button>
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+<footer>
+    جميع الحقوق محفوظة © أبو عزوز | AZF OFFICIAL
+</footer>
+
+<script>
+let username = sessionStorage.getItem("azf_current_user");
+
+if (!username) {
+    username = prompt("اكتب اسمك في الموقع:");
+
+    if (!username || !username.trim()) {
+        username = "زائر";
+    }
+
+    username = username.trim().slice(0,20);
+}
+
+let currentChat = "global";
+let currentFriend = null;
+
+function getMessages() {
+    return JSON.parse(localStorage.getItem("azf_chat_messages") || "{}");
+}
+
+function saveMessages(data) {
+    localStorage.setItem("azf_chat_messages", JSON.stringify(data));
+}
+
+function getPrivateKey(user1, user2) {
+    return "private_" + [user1, user2].sort().join("_");
+}
+
+function switchChat(type) {
+    currentChat = type;
+    currentFriend = null;
+
+    document.getElementById("chatTitle").textContent = "🌍 الشات العام";
+    document.getElementById("chatDescription").textContent = "المحادثة العامة";
+    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("globalTab").classList.add("active");
+
+    renderFriends();
+    renderMessages();
+}
+
+function openPrivateChat(friend) {
+    currentFriend = friend;
+    currentChat = getPrivateKey(username, friend);
+
+    document.getElementById("chatTitle").textContent = "💬 " + friend;
+    document.getElementById("chatDescription").textContent = "محادثة خاصة تجريبية";
+    document.getElementById("backBtn").style.display = "block";
+    document.getElementById("globalTab").classList.remove("active");
+
+    renderFriends();
+    renderMessages();
+}
+
+function renderMessages() {
+    const messages = getMessages();
+    const list = document.getElementById("messages");
+
+    list.innerHTML = "";
+
+    const chatMessages = messages[currentChat] || [];
+
+    if (chatMessages.length === 0) {
+        list.innerHTML = '<div class="empty">ابدأ المحادثة الآن ✨</div>';
+        return;
+    }
+
+    chatMessages.forEach((msg,index) => {
+        const div = document.createElement("div");
+
+        div.className = "message" + (msg.user === username ? " mine" : "");
+
+        const name = document.createElement("strong");
+        name.textContent = msg.user;
+
+        const content = document.createElement("div");
+        content.textContent = msg.text;
+
+        const time = document.createElement("small");
+        time.textContent = msg.time;
+
+        div.appendChild(name);
+        div.appendChild(content);
+        div.appendChild(time);
+
+        if (msg.user === username) {
+            const del = document.createElement("button");
+            del.textContent = "حذف الرسالة";
+            del.onclick = () => deleteMessage(index);
+            div.appendChild(del);
+        }
+
+        list.appendChild(div);
+    });
+
+    list.scrollTop = list.scrollHeight;
+}
+
+function sendMessage() {
+    const input = document.getElementById("messageInput");
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    const messages = getMessages();
+
+    if (!messages[currentChat]) {
+        messages[currentChat] = [];
+    }
+
+    messages[currentChat].push({
+        user: username,
+        text: text,
+        time: new Date().toLocaleTimeString("ar-SA", {
+            hour: "2-digit",
+            minute: "2-digit"
+        })
+    });
+
+    saveMessages(messages);
+
+    input.value = "";
+    renderMessages();
+}
+
+function deleteMessage(index) {
+    const messages = getMessages();
+
+    if (!messages[currentChat]) return;
+    if (messages[currentChat][index].user !== username) return;
+
+    messages[currentChat].splice(index,1);
+
+    saveMessages(messages);
+    renderMessages();
+}
+
+function renderFriends() {
+    const friends = JSON.parse(localStorage.getItem("azf_friends") || "{}");
+    const myFriends = friends[username] || [];
+
+    const list = document.getElementById("friendsList");
+
+    list.innerHTML = "";
+
+    if (myFriends.length === 0) {
+        list.innerHTML = '<div class="friend" style="cursor:default">ما عندك أصدقاء حتى الآن</div>';
+        return;
+    }
+
+    myFriends.forEach(friend => {
+        const div = document.createElement("button");
+
+        div.className = "friend" + (currentFriend === friend ? " active" : "");
+
+        const online = document.createElement("span");
+        online.className = "online";
+        online.textContent = "●";
+
+        const name = document.createElement("span");
+        name.textContent = friend;
+
+        div.appendChild(online);
+        div.appendChild(name);
+
+        div.onclick = () => openPrivateChat(friend);
+
+        list.appendChild(div);
+    });
+}
+
+window.addEventListener("storage", () => {
+    renderMessages();
+    renderFriends();
+});
+
+renderFriends();
+renderMessages();
+</script>
+
+</body>
+</html>

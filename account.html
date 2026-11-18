@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حسابي | AZF OFFICIAL</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --purple: #9b5cff;
+    --purple2: #702cff;
+    --bg: #090711;
+    --card: #151020;
+    --text: #ffffff;
+    --muted: #aaa2bd;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background:
+        radial-gradient(circle at 15% 10%, #36145b55, transparent 35%),
+        radial-gradient(circle at 85% 80%, #35105b44, transparent 35%),
+        var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+button, input, textarea {
+    font-family: inherit;
+}
+
+header {
+    width: 100%;
+    padding: 20px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ffffff12;
+    background: #0c0915cc;
+    backdrop-filter: blur(15px);
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 900;
+    color: var(--purple);
+    text-decoration: none;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: #c9c1d8;
+    text-decoration: none;
+    font-size: 14px;
+    transition: .3s;
+}
+
+nav a:hover {
+    color: var(--purple);
+}
+
+.container {
+    width: 92%;
+    max-width: 1000px;
+    margin: 65px auto;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.title h1 {
+    font-size: 35px;
+    font-weight: 900;
+}
+
+.title h1 span {
+    color: var(--purple);
+}
+
+.title p {
+    color: var(--muted);
+    margin-top: 8px;
+}
+
+.card {
+    background: linear-gradient(145deg, #1b1429, #100c19);
+    border: 1px solid #a46aff25;
+    border-radius: 25px;
+    padding: 35px;
+    box-shadow: 0 20px 70px #0008;
+    animation: appear .5s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.tabs button {
+    flex: 1;
+    padding: 13px;
+    border: 1px solid #ffffff15;
+    background: #ffffff08;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.tabs button.active {
+    background: linear-gradient(120deg, var(--purple2), var(--purple));
+    border-color: transparent;
+}
+
+.field {
+    margin-bottom: 18px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #d7cde8;
+}
+
+.field input,
+.field textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: #0c0914;
+    border: 1px solid #ffffff18;
+    border-radius: 12px;
+    color: white;
+    outline: none;
+    transition: .3s;
+}
+
+.field input:focus,
+.field textarea:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 15px #9b5cff22;
+}
+
+.field textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.main-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 13px;
+    color: white;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+    background: linear-gradient(120deg, var(--purple2), var(--purple));
+    transition: .3s;
+}
+
+.main-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px #9b5cff55;
+}
+
+.message {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+    color: #ff8585;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* PROFILE */
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.avatar-box {
+    width: 145px;
+    height: 145px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    padding: 5px;
+    background: linear-gradient(135deg, #702cff, #d29aff);
+    box-shadow: 0 0 35px #9b5cff55;
+    position: relative;
+}
+
+.avatar-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    background: #211432;
+}
+
+.username {
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.badge {
+    display: inline-block;
+    background: #9b5cff22;
+    color: #c9a5ff;
+    border: 1px solid #9b5cff55;
+    border-radius: 30px;
+    padding: 4px 15px;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.upload-area {
+    background: #ffffff06;
+    border: 1px dashed #9b5cff77;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.upload-area p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.upload-btn {
+    display: inline-block;
+    background: #9b5cff22;
+    color: #d7bdff;
+    border: 1px solid #9b5cff77;
+    padding: 9px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.upload-btn:hover {
+    background: #9b5cff44;
+}
+
+.upload-btn input {
+    display: none;
+}
+
+.remove-btn {
+    margin-top: 10px;
+    background: transparent;
+    color: #ff8585;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin-inline: auto;
+    font-size: 12px;
+}
+
+.profile-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.secondary-btn {
+    padding: 12px;
+    border: 1px solid #ffffff20;
+    background: #ffffff08;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.secondary-btn:hover {
+    border-color: var(--purple);
+    color: #d5baff;
+}
+
+.danger-btn {
+    background: #ff454511;
+    border-color: #ff454544;
+    color: #ff9292;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #777084;
+    font-size: 13px;
+}
+
+@media(max-width:650px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav {
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    .title h1 {
+        font-size: 27px;
+    }
+
+    .profile-actions {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <a href="index.html" class="logo">AZF OFFICIAL</a>
+
+    <nav>
+        <a href="index.html">الرئيسية</a>
+        <a href="game.html">الألعاب</a>
+        <a href="friends.html">الأصدقاء</a>
+        <a href="chat.html">الشات</a>
+        <a href="notifications.html">الإشعارات</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <div class="title">
+        <h1>حساب <span>AZF</span></h1>
+        <p>أنشئ حسابك وابدأ رحلتك في مجتمعنا 💜</p>
+    </div>
+
+    <!-- تسجيل الدخول وإنشاء الحساب -->
+
+    <section class="card" id="authSection">
+
+        <div class="tabs">
+            <button class="active" id="loginTab" onclick="switchTab('login')">
+                تسجيل الدخول
+            </button>
+
+            <button id="registerTab" onclick="switchTab('register')">
+                إنشاء حساب
+            </button>
+        </div>
+
+        <form id="loginForm" onsubmit="login(event)">
+
+            <div class="field">
+                <label>اسم المستخدم</label>
+                <input id="loginUsername" type="text" placeholder="اكتب اسم المستخدم" required>
+            </div>
+
+            <div class="field">
+                <label>كلمة المرور</label>
+                <input id="loginPassword" type="password" placeholder="كلمة المرور" required>
+            </div>
+
+            <button class="main-btn" type="submit">دخول إلى حسابي</button>
+
+            <div class="message" id="loginMessage"></div>
+        </form>
+
+        <form id="registerForm" class="hidden" onsubmit="register(event)">
+
+            <div class="field">
+                <label>اسم المستخدم</label>
+                <input id="registerUsername" type="text" placeholder="مثال: AbuAzooz" minlength="3" maxlength="20" required>
+            </div>
+
+            <div class="field">
+                <label>كلمة المرور</label>
+                <input id="registerPassword" type="password" placeholder="6 أحرف على الأقل" minlength="6" required>
+            </div>
+
+            <div class="field">
+                <label>تأكيد كلمة المرور</label>
+                <input id="confirmPassword" type="password" placeholder="أعد كتابة كلمة المرور" required>
+            </div>
+
+            <button class="main-btn" type="submit">إنشاء حساب جديد</button>
+
+            <div class="message" id="registerMessage"></div>
+        </form>
+
+    </section>
+
+    <!-- الملف الشخصي -->
+
+    <section class="card hidden" id="profileSection">
+
+        <div class="profile-header">
+
+            <div class="avatar-box">
+                <img id="profileImage" alt="الصورة الشخصية">
+            </div>
+
+            <div class="username" id="profileUsername">Username</div>
+            <span class="badge">عضو في AZF OFFICIAL</span>
+
+        </div>
+
+        <div class="upload-area">
+
+            <p>اختر صورة حسابك من معرض جهازك 🖼️</p>
+
+            <label class="upload-btn">
+                📸 اختيار صورة
+                <input type="file" id="imageInput" accept="image/*">
+            </label>
+
+            <button class="remove-btn" onclick="removeImage()">
+                إزالة الصورة
+            </button>
+
+        </div>
+
+        <div class="field">
+            <label>النبذة الشخصية</label>
+            <textarea id="profileBio" maxlength="150" placeholder="اكتب شيئًا عن نفسك..."></textarea>
+        </div>
+
+        <button class="main-btn" onclick="saveProfile()">حفظ التغييرات 💜</button>
+
+        <div class="message" id="profileMessage"></div>
+
+        <div class="profile-actions">
+            <button class="secondary-btn" onclick="window.location.href='friends.html'">
+                👥 الأصدقاء
+            </button>
+
+            <button class="secondary-btn" onclick="window.location.href='chat.html'">
+                💬 الشات
+            </button>
+
+            <button class="secondary-btn danger-btn" onclick="logout()">
+                تسجيل الخروج
+            </button>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    جميع الحقوق محفوظة © أبو عزوز | AZF OFFICIAL
+</footer>
+
+<script>
+
+// مفاتيح التخزين
+const USERS_KEY = "azf_users";
+const PROFILES_KEY = "azf_profiles";
+const SESSION_KEY = "azf_current_user";
+
+// قراءة المستخدمين
+function getUsers() {
+    try {
+        const data = JSON.parse(localStorage.getItem(USERS_KEY));
+        return Array.isArray(data) ? data : [];
+    } catch {
+        return [];
+    }
+}
+
+// حفظ المستخدمين
+function saveUsers(users) {
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+}
+
+// قراءة الملفات الشخصية
+function getProfiles() {
+    try {
+        return JSON.parse(localStorage.getItem(PROFILES_KEY)) || {};
+    } catch {
+        return {};
+    }
+}
+
+// حفظ الملفات الشخصية
+function saveProfiles(profiles) {
+    localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
+}
+
+// تشفير كلمة المرور
+async function hashPassword(password) {
+    if (!window.crypto || !crypto.subtle) {
+        throw new Error("افتح الموقع عبر localhost أو HTTPS لتفعيل تسجيل الحساب.");
+    }
+
+    const data = new TextEncoder().encode(password);
+    const hash = await crypto.subtle.digest("SHA-256", data);
+
+    return Array.from(new Uint8Array(hash))
+        .map(b => b.toString(16).padStart(2, "0"))
+        .join("");
+}
+
+// التنقل بين التبويبات
+function switchTab(tab) {
+
+    document.getElementById("loginForm").classList.toggle("hidden", tab !== "login");
+    document.getElementById("registerForm").classList.toggle("hidden", tab !== "register");
+
+    document.getElementById("loginTab").classList.toggle("active", tab === "login");
+    document.getElementById("registerTab").classList.toggle("active", tab === "register");
+
+}
+
+// إنشاء حساب
+async function register(event) {
+
+    event.preventDefault();
+
+    const username = document.getElementById("registerUsername").value.trim();
+    const password = document.getElementById("registerPassword").value;
+    const confirm = document.getElementById("confirmPassword").value;
+    const message = document.getElementById("registerMessage");
+
+    message.style.color = "#ff8585";
+
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
+        message.textContent = "اسم المستخدم يجب أن يكون إنجليزيًا أو أرقامًا أو _ ومن 3 إلى 20 حرفًا.";
+        return;
+    }
+
+    if (password.length < 6) {
+        message.textContent = "كلمة المرور يجب أن تكون 6 أحرف على الأقل.";
+        return;
+    }
+
+    if (password !== confirm) {
+        message.textContent = "كلمتا المرور غير متطابقتين.";
+        return;
+    }
+
+    const users = getUsers();
+
+    if (users.some(user => user.username.toLowerCase() === username.toLowerCase())) {
+        message.textContent = "اسم المستخدم مستخدم بالفعل.";
+        return;
+    }
+
+    try {
+
+        const hashed = await hashPassword(password);
+
+        users.push({
+            username: username,
+            password: hashed
+        });
+
+        saveUsers(users);
+
+        const profiles = getProfiles();
+
+        profiles[username] = {
+            username: username,
+            bio: "",
+            image: ""
+        };
+
+        saveProfiles(profiles);
+
+        sessionStorage.setItem(SESSION_KEY, username);
+
+        showProfile(username);
+
+    } catch (error) {
+        message.textContent = error.message || "حدث خطأ أثناء إنشاء الحساب.";
+    }
+
+}
+
+// تسجيل الدخول
+async function login(event) {
+
+    event.preventDefault();
+
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    const message = document.getElementById("loginMessage");
+
+    message.style.color = "#ff8585";
+
+    const users = getUsers();
+
+    const user = users.find(item =>
+        item.username.toLowerCase() === username.toLowerCase()
+    );
+
+    if (!user) {
+        message.textContent = "اسم المستخدم غير موجود.";
+        return;
+    }
+
+    try {
+
+        const hashed = await hashPassword(password);
+
+        if (user.password !== hashed) {
+            message.textContent = "كلمة المرور غير صحيحة.";
+            return;
+        }
+
+        sessionStorage.setItem(SESSION_KEY, user.username);
+
+        showProfile(user.username);
+
+    } catch (error) {
+        message.textContent = error.message || "تعذر تسجيل الدخول.";
+    }
+
+}
+
+// عرض الملف الشخصي
+function showProfile(username) {
+
+    document.getElementById("authSection").classList.add("hidden");
+    document.getElementById("profileSection").classList.remove("hidden");
+
+    document.getElementById("profileUsername").textContent = username;
+
+    loadProfile();
+
+}
+
+// تحميل بيانات الحساب
+function loadProfile() {
+
+    const username = sessionStorage.getItem(SESSION_KEY);
+
+    if (!username) return;
+
+    const profiles = getProfiles();
+
+    const profile = profiles[username] || {
+        bio: "",
+        image: ""
+    };
+
+    document.getElementById("profileBio").value = profile.bio || "";
+
+    document.getElementById("profileImage").src =
+        profile.image || createDefaultAvatar();
+
+}
+
+// صورة افتراضية
+function createDefaultAvatar() {
+
+    const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
+        <rect width="100%" height="100%" fill="#211432"/>
+        <text x="50%" y="55%" text-anchor="middle"
+        font-size="120" fill="#b98aff"
+        font-family="Arial">AZF</text>
+    </svg>`;
+
+    return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+
+}
+
+// اختيار صورة من المعرض
+document.getElementById("imageInput").addEventListener("change", function(event) {
+
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const message = document.getElementById("profileMessage");
+
+    if (!file.type.startsWith("image/")) {
+        message.textContent = "الملف المختار ليس صورة.";
+        return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+        message.textContent = "حجم الصورة كبير جدًا. اختر صورة أقل من 10MB.";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        const image = new Image();
+
+        image.onload = function() {
+
+            const canvas = document.createElement("canvas");
+
+            const maxSize = 400;
+
+            let width = image.width;
+            let height = image.height;
+
+            if (width > height && width > maxSize) {
+                height = Math.round(height * maxSize / width);
+                width = maxSize;
+            } else if (height > maxSize) {
+                width = Math.round(width * maxSize / height);
+                height = maxSize;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext("2d");
+
+            ctx.drawImage(image, 0, 0, width, height);
+
+            const compressedImage = canvas.toDataURL("image/jpeg", 0.75);
+
+            document.getElementById("profileImage").src = compressedImage;
+
+            const username = sessionStorage.getItem(SESSION_KEY);
+
+            if (!username) return;
+
+            const profiles = getProfiles();
+
+            profiles[username] = profiles[username] || {
+                username,
+                bio: "",
+                image: ""
+            };
+
+            profiles[username].image = compressedImage;
+
+            try {
+                saveProfiles(profiles);
+                message.style.color = "#8dffb0";
+                message.textContent = "تم اختيار الصورة وحفظها بنجاح 💜";
+            } catch {
+                message.style.color = "#ff8585";
+                message.textContent = "مساحة التخزين ممتلئة. جرّب صورة أصغر.";
+            }
+
+        };
+
+        image.onerror = function() {
+            message.textContent = "تعذر قراءة الصورة.";
+        };
+
+        image.src = e.target.result;
+
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+// إزالة الصورة
+function removeImage() {
+
+    const username = sessionStorage.getItem(SESSION_KEY);
+
+    if (!username) return;
+
+    const profiles = getProfiles();
+
+    if (!profiles[username]) return;
+
+    profiles[username].image = "";
+
+    try {
+
+        saveProfiles(profiles);
+
+        document.getElementById("profileImage").src = createDefaultAvatar();
+
+        document.getElementById("imageInput").value = "";
+
+        document.getElementById("profileMessage").style.color = "#8dffb0";
+        document.getElementById("profileMessage").textContent = "تمت إزالة الصورة.";
+
+    } catch {
+        document.getElementById("profileMessage").textContent = "تعذر إزالة الصورة.";
+    }
+
+}
+
+// حفظ النبذة
+function saveProfile() {
+
+    const username = sessionStorage.getItem(SESSION_KEY);
+
+    if (!username) return;
+
+    const profiles = getProfiles();
+
+    profiles[username] = profiles[username] || {
+        username,
+        bio: "",
+        image: ""
+    };
+
+    profiles[username].bio = document.getElementById("profileBio").value.trim();
+
+    try {
+
+        saveProfiles(profiles);
+
+        const message = document.getElementById("profileMessage");
+
+        message.style.color = "#8dffb0";
+        message.textContent = "تم حفظ التغييرات بنجاح 💜";
+
+    } catch {
+        document.getElementById("profileMessage").textContent = "تعذر حفظ التغييرات.";
+    }
+
+}
+
+// تسجيل الخروج
+function logout() {
+
+    sessionStorage.removeItem(SESSION_KEY);
+
+    document.getElementById("profileSection").classList.add("hidden");
+    document.getElementById("authSection").classList.remove("hidden");
+
+    document.getElementById("loginForm").reset();
+    document.getElementById("registerForm").reset();
+
+    switchTab("login");
+
+}
+
+// التحقق من الجلسة عند فتح الصفحة
+window.addEventListener("DOMContentLoaded", function() {
+
+    const username = sessionStorage.getItem(SESSION_KEY);
+
+    if (username) {
+
+        const exists = getUsers().some(user => user.username === username);
+
+        if (exists) {
+            showProfile(username);
+        } else {
+            sessionStorage.removeItem(SESSION_KEY);
+        }
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AZF OFFICIAL - منصة الألعاب</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="logo">AZF<span>OFFICIAL</span></div>
+
+    <nav>
+        <a href="#home">الرئيسية</a>
+        <a href="#games">الألعاب</a>
+        <a href="#community">المجتمع</a>
+        <a href="#about">عن الموقع</a>
+        <a href="friends.html">الأصدقاء 👥</a>
+        <a href="chat.html">💬 الشات</a>
+        <a href="notifications.html">🔔 الإشعارات</a>
+    </nav>
+
+
+<button class="login-btn" onclick="window.location.href='account.html'">
+    👤 حسابي
+</button>
+</header>
+
+<main>
+
+<section class="hero" id="home">
+    <div class="hero-content">
+        <span class="badge">🎮 عالمك الترفيهي يبدأ هنا</span>
+
+        <h1>
+            العب، نافس،<br>
+            واصنع <span>مغامرتك!</span>
+        </h1>
+
+        <p>
+            اكتشف ألعابًا متنوعة، تحدَّ أصدقاءك،
+            وكن جزءًا من مجتمع AZF.
+        </p>
+
+        <a href="#games" class="start-btn">استكشف الألعاب ←</a>
+    </div>
+
+    <div class="hero-art">
+        <div class="game-icon">🎮</div>
+        <div class="floating-icon">🏆</div>
+        <div class="floating-icon second">👾</div>
+    </div>
+</section>
+
+<section class="stats">
+    <div><strong>∞</strong><span>متعة بلا حدود</span></div>
+    <div><strong>8+</strong><span>أقسام ألعاب</span></div>
+    <div><strong>24/7</strong><span>عالمك مفتوح</span></div>
+</section>
+
+<section class="games-section" id="games">
+
+    <div class="section-title">
+        <div>
+            <span class="small-title">اختر مغامرتك</span>
+            <h2>استكشف الألعاب 🎯</h2>
+        </div>
+        <span class="all-games">جميع الألعاب</span>
+    </div>
+
+    <div class="categories">
+
+        <button class="category active" data-category="all">الكل</button>
+        <button class="category" data-category="brain">🧠 ذكاء</button>
+        <button class="category" data-category="horror">👻 رعب</button>
+        <button class="category" data-category="challenge">⚡ تحديات</button>
+        <button class="category" data-category="guess">🎯 تخمين</button>
+        <button class="category" data-category="luck">🎲 حظ</button>
+        <button class="category" data-category="puzzle">🧩 ألغاز</button>
+        <button class="category" data-category="group">👥 جماعية</button>
+
+    </div>
+
+    <div class="games-grid">
+
+        <article class="game-card" data-category="brain">
+            <div class="game-cover purple">🧠</div>
+            <div class="game-info">
+                <span>ذكاء ومعلومات</span>
+                <h3>تحدي المعلومات</h3>
+                <p>اختبر معلوماتك وتحدى نفسك.</p>
+                <button onclick="openGame('game.html')">العب الآن ←</button>
+            </div>
+        </article>
+
+        <article class="game-card" data-category="guess">
+            <div class="game-cover blue">🔢</div>
+            <div class="game-info">
+                <span>تخمين</span>
+                <h3>خمن الرقم</h3>
+                <p>هل تستطيع معرفة الرقم الصحيح؟</p>
+                <button onclick="openGame('game.html')">العب الآن ←</button>
+            </div>
+        </article>
+
+        <article class="game-card" data-category="challenge">
+            <div class="game-cover pink">⚡</div>
+            <div class="game-info">
+                <span>تحديات</span>
+                <h3>تحدي السرعة</h3>
+                <p>اختبر سرعة تفكيرك وردة فعلك.</p>
+                <button onclick="comingSoon()">قريبًا</button>
+            </div>
+        </article>
+
+        <article class="game-card" data-category="horror">
+            <div class="game-cover dark">👻</div>
+            <div class="game-info">
+                <span>رعب</span>
+                <h3>الغرفة المظلمة</h3>
+                <p>هل تملك الشجاعة لاكتشاف الأسرار؟</p>
+                <button onclick="comingSoon()">قريبًا</button>
+            </div>
+        </article>
+
+        <article class="game-card" data-category="luck">
+            <div class="game-cover gold">🎲</div>
+            <div class="game-info">
+                <span>حظ</span>
+                <h3>اختبر حظك</h3>
+                <p>جرّب حظك واكتشف النتيجة.</p>
+                <button onclick="comingSoon()">قريبًا</button>
+            </div>
+        </article>
+
+        <article class="game-card" data-category="puzzle">
+            <div class="game-cover green">🧩</div>
+            <div class="game-info">
+                <span>ألغاز</span>
+                <h3>لغز اليوم</h3>
+                <p>فكر جيدًا وحاول حل اللغز.</p>
+                <button onclick="comingSoon()">قريبًا</button>
+            </div>
+        </article>
+
+        <article class="game-card" data-category="group">
+            <div class="game-cover orange">👥</div>
+            <div class="game-info">
+                <span>جماعية</span>
+                <h3>تحدي الأصدقاء</h3>
+                <p>نافس أصدقاءك في التحديات.</p>
+                <button onclick="comingSoon()">قريبًا</button>
+            </div>
+        </article>
+
+        <article class="game-card" data-category="challenge">
+            <div class="game-cover cyan">✅</div>
+            <div class="game-info">
+                <span>تحديات</span>
+                <h3>صح أو خطأ</h3>
+                <p>اختبر معلوماتك في جولات سريعة.</p>
+                <button onclick="openGame('game.html')">العب الآن ←</button>
+            </div>
+        </article>
+
+    </div>
+</section>
+
+<section class="community" id="community">
+    <div>
+        <span class="small-title">مجتمع AZF</span>
+        <h2>اللعب أحلى مع الأصدقاء 💜</h2>
+        <p>قريبًا تقدر تضيف أصدقاء وتتحدث معهم وتشاركهم اللعب.</p>
+    </div>
+    <div class="community-icon">💬</div>
+</section>
+
+<footer id="about">
+    <h2>AZF OFFICIAL</h2>
+    <p>منصة الألعاب والترفيه</p>
+    <span>جميع الحقوق محفوظة © 2026 | أبو عزوز</span>
+</footer>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>

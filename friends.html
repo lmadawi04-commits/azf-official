@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AZF | الأصدقاء</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cairo', Arial, sans-serif;
+    background: #090711;
+    color: white;
+    min-height: 100vh;
+}
+
+header {
+    height: 80px;
+    background: #120e1e;
+    border-bottom: 1px solid #ffffff15;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6%;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 900;
+    color: #c084fc;
+}
+
+header a {
+    color: #c084fc;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.title {
+    margin-bottom: 30px;
+}
+
+.title h1 {
+    font-size: 35px;
+}
+
+.title p {
+    color: #999;
+    margin-top: 8px;
+}
+
+.panel {
+    background: #171225;
+    border: 1px solid #9333ea44;
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+}
+
+.panel h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.search {
+    display: flex;
+    gap: 12px;
+}
+
+input {
+    flex: 1;
+    padding: 15px;
+    background: #0c0914;
+    border: 1px solid #ffffff20;
+    border-radius: 12px;
+    color: white;
+    outline: none;
+    font-family: inherit;
+}
+
+input:focus {
+    border-color: #a855f7;
+}
+
+button {
+    padding: 12px 22px;
+    background: #9333ea;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-family: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .3s;
+}
+
+button:hover {
+    background: #7e22ce;
+    transform: translateY(-2px);
+}
+
+.list {
+    display: grid;
+    gap: 12px;
+}
+
+.player {
+    background: #211a30;
+    border: 1px solid #ffffff12;
+    border-radius: 14px;
+    padding: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    background: #9333ea;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 23px;
+}
+
+.player-name {
+    font-weight: bold;
+}
+
+.player-status {
+    font-size: 11px;
+    color: #999;
+}
+
+.empty {
+    text-align: center;
+    padding: 25px;
+    color: #888;
+}
+
+.remove {
+    background: #7f1d1d;
+}
+
+.remove:hover {
+    background: #991b1b;
+}
+
+.message {
+    margin-top: 15px;
+    color: #c084fc;
+    font-size: 13px;
+}
+
+@media(max-width:600px) {
+    .search {
+        flex-direction: column;
+    }
+
+    .player {
+        flex-wrap: wrap;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">AZF OFFICIAL</div>
+    <a href="index.html">الرئيسية ←</a>
+</header>
+
+<div class="container">
+
+    <div class="title">
+        <h1>👥 الأصدقاء</h1>
+        <p>ابحث عن اللاعبين وأرسل طلبات الصداقة.</p>
+    </div>
+
+    <div class="panel">
+
+        <h2>🔎 البحث عن لاعب</h2>
+
+        <div class="search">
+
+            <input
+                id="searchInput"
+                placeholder="اكتب اسم اللاعب..."
+            >
+
+            <button onclick="searchPlayer()">
+                بحث
+            </button>
+
+        </div>
+
+        <div id="searchResults" class="list" style="margin-top:20px"></div>
+
+        <div id="message" class="message"></div>
+
+    </div>
+
+    <div class="panel">
+
+        <h2>📨 طلبات الصداقة</h2>
+
+        <div id="requests" class="list">
+            <div class="empty">لا توجد طلبات حاليًا.</div>
+        </div>
+
+    </div>
+
+    <div class="panel">
+
+        <h2>💜 أصدقائي</h2>
+
+        <div id="friends" class="list">
+            <div class="empty">لم تضف أي صديق حتى الآن.</div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const currentUser =
+    sessionStorage.getItem("azf_current_user");
+
+function getData(key) {
+    return JSON.parse(localStorage.getItem(key) || "{}");
+}
+
+function saveData(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+}
+
+function searchPlayer() {
+
+    const name = document
+        .getElementById("searchInput")
+        .value.trim();
+
+    const results =
+        document.getElementById("searchResults");
+
+    results.innerHTML = "";
+
+    if (!currentUser) {
+        results.innerHTML =
+            '<div class="empty">سجل دخولك أولاً.</div>';
+        return;
+    }
+
+    if (!name) {
+        results.innerHTML =
+            '<div class="empty">اكتب اسم اللاعب أولاً.</div>';
+        return;
+    }
+
+    const users = getData("azf_users");
+
+    const key = name.toLowerCase();
+
+    if (!users[key]) {
+        results.innerHTML =
+            '<div class="empty">لم يتم العثور على اللاعب.</div>';
+        return;
+    }
+
+    if (key === currentUser.toLowerCase()) {
+        results.innerHTML =
+            '<div class="empty">هذا حسابك أنت 😎</div>';
+        return;
+    }
+
+    const friends = getData("azf_friends");
+    const requests = getData("azf_requests");
+
+    const myFriends = friends[currentUser.toLowerCase()] || [];
+    const myRequests = requests[currentUser.toLowerCase()] || [];
+
+    const alreadyFriend = myFriends.includes(key);
+    const alreadySent = myRequests.includes(key);
+
+    let action = "";
+
+    if (alreadyFriend) {
+        action = "💜 صديقك بالفعل";
+    } else if (alreadySent) {
+        action = "⏳ تم إرسال الطلب";
+    } else {
+        action = `<button onclick="sendRequest('${key}')">إضافة صديق +</button>`;
+    }
+
+    const profileData = getData("azf_profiles");
+    const profile = profileData[key] || {};
+
+    results.innerHTML = `
+        <div class="player">
+            <div class="player-info">
+                <div class="avatar">${profile.avatar || "👤"}</div>
+                <div>
+                    <div class="player-name">${escapeHTML(users[key].username)}</div>
+                    <div class="player-status">@${escapeHTML(key)}</div>
+                </div>
+            </div>
+            ${action}
+        </div>
+    `;
+}
+
+function sendRequest(target) {
+
+    const requests = getData("azf_requests");
+
+    if (!requests[target]) {
+        requests[target] = [];
+    }
+
+    if (!requests[target].includes(currentUser.toLowerCase())) {
+        requests[target].push(currentUser.toLowerCase());
+    }
+
+    saveData("azf_requests", requests);
+
+    document.getElementById("message").textContent =
+        "تم إرسال طلب الصداقة 💜";
+
+    searchPlayer();
+}
+
+function acceptRequest(sender) {
+
+    const requests = getData("azf_requests");
+    const friends = getData("azf_friends");
+
+    const me = currentUser.toLowerCase();
+
+    requests[me] = (requests[me] || [])
+        .filter(user => user !== sender);
+
+    if (!friends[me]) friends[me] = [];
+    if (!friends[sender]) friends[sender] = [];
+
+    if (!friends[me].includes(sender)) {
+        friends[me].push(sender);
+    }
+
+    if (!friends[sender].includes(me)) {
+        friends[sender].push(me);
+    }
+
+    saveData("azf_requests", requests);
+    saveData("azf_friends", friends);
+
+    renderAll();
+}
+
+function removeFriend(target) {
+
+    if (!confirm("هل تريد حذف هذا الصديق؟")) return;
+
+    const friends = getData("azf_friends");
+
+    const me = currentUser.toLowerCase();
+
+    friends[me] = (friends[me] || [])
+        .filter(user => user !== target);
+
+    if (friends[target]) {
+        friends[target] = friends[target]
+            .filter(user => user !== me);
+    }
+
+    saveData("azf_friends", friends);
+
+    renderAll();
+}
+
+function renderAll() {
+
+    if (!currentUser) {
+        document.getElementById("requests").innerHTML =
+            '<div class="empty">سجل دخولك أولاً.</div>';
+
+        document.getElementById("friends").innerHTML =
+            '<div class="empty">سجل دخولك أولاً.</div>';
+
+        return;
+    }
+
+    const me = currentUser.toLowerCase();
+
+    const users = getData("azf_users");
+    const requests = getData("azf_requests");
+    const friends = getData("azf_friends");
+    const profiles = getData("azf_profiles");
+
+    const myRequests = requests[me] || [];
+    const myFriends = friends[me] || [];
+
+    const requestBox = document.getElementById("requests");
+    const friendBox = document.getElementById("friends");
+
+    requestBox.innerHTML = "";
+    friendBox.innerHTML = "";
+
+    if (myRequests.length === 0) {
+        requestBox.innerHTML =
+            '<div class="empty">لا توجد طلبات حاليًا.</div>';
+    }
+
+    myRequests.forEach(sender => {
+
+        if (!users[sender]) return;
+
+        const profile = profiles[sender] || {};
+
+        requestBox.innerHTML += `
+            <div class="player">
+                <div class="player-info">
+                    <div class="avatar">${profile.avatar || "👤"}</div>
+                    <div class="player-name">${escapeHTML(users[sender].username)}</div>
+                </div>
+                <button onclick="acceptRequest('${sender}')">
+                    قبول الطلب
+                </button>
+            </div>
+        `;
+    });
+
+    if (myFriends.length === 0) {
+        friendBox.innerHTML =
+            '<div class="empty">لم تضف أي صديق حتى الآن 💜</div>';
+    }
+
+    myFriends.forEach(friend => {
+
+        if (!users[friend]) return;
+
+        const profile = profiles[friend] || {};
+
+        friendBox.innerHTML += `
+            <div class="player">
+                <div class="player-info">
+                    <div class="avatar">${profile.avatar || "👤"}</div>
+                    <div>
+                        <div class="player-name">${escapeHTML(users[friend].username)}</div>
+                        <div class="player-status">عضو في AZF</div>
+                    </div>
+                </div>
+                <button class="remove" onclick="removeFriend('${friend}')">
+                    حذف
+                </button>
+            </div>
+        `;
+    });
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+renderAll();
+
+</script>
+
+</body>
+</html>

@@ -4,7 +4,7 @@
     const SUPABASE_URL = "https://sbudwgxyoeqosvyhckvb.supabase.co";
 
     // ضع هنا نفس المفتاح العام Publishable Key الذي استخدمته سابقاً
-    const SUPABASE_KEY = "ضع_المفتاح_العام_هنا";
+    const SUPABASE_KEY = "sb_publishable_SvYg2gBqI72GHDLNH7V_Yg_eYDMigYX";
 
     const SESSION_KEY = "azf_visitor_id";
 

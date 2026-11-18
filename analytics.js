@@ -1,17 +1,24 @@
-// AZF OFFICIAL - Online Visitors Counter
+// AZF OFFICIAL - Online Counter
 
 (function () {
     const SUPABASE_URL = "https://sbudwgxyoeqosvyhckvb.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_SvYg2gBqI72GHDLNH7V_Yg_eYDMigYX";
+
+    // ضع هنا نفس المفتاح العام Publishable Key الذي استخدمته سابقاً
+    const SUPABASE_KEY = "ضع_المفتاح_العام_هنا";
 
     const SESSION_KEY = "azf_visitor_id";
-    const visitorId = localStorage.getItem(SESSION_KEY) || crypto.randomUUID();
 
-    localStorage.setItem(SESSION_KEY, visitorId);
+    let visitorId = localStorage.getItem(SESSION_KEY);
 
-    // إنشاء شكل العداد
+    if (!visitorId) {
+        visitorId = crypto.randomUUID();
+        localStorage.setItem(SESSION_KEY, visitorId);
+    }
+
     const counter = document.createElement("div");
+
     counter.id = "azf-online-counter";
+
     counter.innerHTML = `
         <span class="online-dot"></span>
         <span>المتواجدون الآن:</span>
@@ -20,14 +27,14 @@
 
     document.body.appendChild(counter);
 
-    // تنسيق العداد
     const style = document.createElement("style");
+
     style.textContent = `
         #azf-online-counter {
             position: fixed;
             bottom: 20px;
             left: 20px;
-            z-index: 99999;
+            z-index: 999999;
             display: flex;
             align-items: center;
             gap: 9px;
@@ -60,35 +67,63 @@
             50% { opacity: .4; }
         }
     `;
+
     document.head.appendChild(style);
 
-    // تحميل Supabase
     const script = document.createElement("script");
+
     script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
-    
+
     script.onload = async function () {
+
         const supabase = window.supabase.createClient(
             SUPABASE_URL,
             SUPABASE_KEY
         );
 
         async function updateOnline() {
+
             const { error } = await supabase.rpc("azf_heartbeat", {
                 p_visitor_id: visitorId
             });
 
             if (error) {
-                console.error("AZF heartbeat error:", error.message);
+                console.error("AZF Error:", error);
                 return;
             }
 
             const { data, error: statsError } =
                 await supabase.rpc("azf_get_stats");
 
-            if (!statsError && data) {
-                document.getElementById("azf-online-number").textContent =
-                    data.online_now ?? 0;
+            if (statsError) {
+                console.error("AZF Stats Error:", statsError);
+                return;
+            }
+
+            document.getElementById("azf-online-number").textContent =
+                data.online_now ?? 0;
+        }
+
+        if (!sessionStorage.getItem("azf_visit_recorded")) {
+
+            const { error } = await supabase.rpc("azf_track_visit", {
+                p_visitor_id: visitorId
+            });
+
+            if (!error) {
+                sessionStorage.setItem("azf_visit_recorded", "yes");
             }
         }
 
-        // تسجيل الزيارة مرة
+        await updateOnline();
+
+        setInterval(updateOnline, 30000);
+    };
+
+    script.onerror = function () {
+        document.getElementById("azf-online-number").textContent = "!";
+    };
+
+    document.head.appendChild(script);
+
+})();

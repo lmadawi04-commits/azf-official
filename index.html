@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AIdev | مساعد المطورين</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="logo">AI<span>dev</span></div>
+        <div class="header-status">
+            <span class="status-dot"></span>
+            مساعد المطورين
+        </div>
+    </header>
+
+    <main>
+
+        <!-- شاشة الترحيب -->
+
+        <section class="welcome">
+            <h1>مرحباً بك في <span>AIdev</span></h1>
+            <p>مساعدك الذكي لتطوير الألعاب وصناعة السكربتات.</p>
+            <h2>اختر بيئة العمل الخاصة بك</h2>
+        </section>
+
+        <!-- اختيار المنصة -->
+
+        <section class="platforms">
+
+            <div class="platform-card" onclick="selectPlatform('Studio Lite')">
+                <div class="platform-icon">📱</div>
+                <h3>Studio Lite</h3>
+                <p>تطوير ألعاب Roblox من الهاتف</p>
+                <button>اختيار المنصة</button>
+            </div>
+
+            <div class="platform-card" onclick="selectPlatform('Roblox Studio')">
+                <div class="platform-icon">💻</div>
+                <h3>Roblox Studio</h3>
+                <p>تطوير الألعاب والأنظمة الاحترافية</p>
+                <button>اختيار المنصة</button>
+            </div>
+
+        </section>
+
+        <!-- إعداد المساعد -->
+
+        <section class="setup-screen" id="setupScreen" style="display:none;">
+
+            <h2>جهّز مساعدك الذكي 🤖</h2>
+            <p>اختر اسماً لمساعدك واكتب اسمك.</p>
+
+            <label>اسم المساعد</label>
+            <input type="text" id="aiName" placeholder="مثلاً: شكش">
+
+            <label>اسمك</label>
+            <input type="text" id="userName" placeholder="اكتب اسمك">
+
+            <button class="main-button" onclick="saveSetup()">
+                ابدأ الآن 🚀
+            </button>
+
+        </section>
+
+        <!-- شاشة التحميل -->
+
+        <section class="loading-screen" id="loadingScreen" style="display:none;">
+
+            <div class="loader"></div>
+            <h2>جاري تجهيز مساعدك...</h2>
+            <p>AIdev يستعد للعمل معك</p>
+
+        </section>
+
+        <!-- شاشة المحادثة -->
+
+        <section class="chat-screen" id="chatScreen" style="display:none;">
+
+            <div class="chat-header">
+
+                <div>
+                    <h2 id="chatAIName">AIdev</h2>
+                    <p>مساعدك الذكي للمطورين</p>
+                </div>
+
+                <div class="online-status">
+                    <span class="status-dot"></span>
+                    متصل
+                </div>
+
+            </div>
+
+            <div class="chat-workspace">
+
+                <!-- قائمة أوامر المطور -->
+
+                <aside class="commands-sidebar">
+
+                    <h3>🛠️ أدوات المطور</h3>
+                    <p>اختر الأمر الذي تريده</p>
+
+                    <button onclick="useCommand('/فحص سكربت')">
+                        🔍 فحص سكربت
+                    </button>
+
+                    <button onclick="useCommand('/شرح سكربت')">
+                        📖 شرح سكربت
+                    </button>
+
+                    <button onclick="useCommand('/إصلاح سكربت')">
+                        🛠️ إصلاح سكربت
+                    </button>
+
+                    <button onclick="useCommand('/تحسين سكربت')">
+                        ⚡ تحسين سكربت
+                    </button>
+
+                    <button onclick="useCommand('/إنشاء سكربت')">
+                        💻 إنشاء سكربت
+                    </button>
+
+                    <button onclick="useCommand('/تحويل سكربت')">
+                        🔄 تحويل سكربت
+                    </button>
+
+                    <button onclick="useCommand('/فحص أداء')">
+                        📊 فحص أداء
+                    </button>
+
+                    <button onclick="useCommand('/كشف الأخطاء')">
+                        ⚠️ كشف الأخطاء
+                    </button>
+
+                    <button onclick="useCommand('/مساعدة')">
+                        ❔ المساعدة
+                    </button>
+
+                    <button onclick="clearChat()">
+                        🗑️ مسح المحادثة
+                    </button>
+
+                </aside>
+
+                <!-- الرسائل -->
+
+                <div class="chat-messages" id="chatMessages">
+                </div>
+
+            </div>
+
+            <!-- صندوق الكتابة -->
+
+            <div class="chat-input-area">
+
+                <input
+                    type="text"
+                    id="messageInput"
+                    placeholder="اكتب رسالتك هنا..."
+                    autocomplete="off"
+                >
+
+                <button onclick="sendMessage()">
+                    إرسال ➤
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>AIdev © 2026 - صُنع للمطورين ❤️</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

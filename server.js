@@ -510,7 +510,117 @@ ${item.code.trim()}
     }
 
     return null;
-}
+}        {
+            keys: ["rebirth", "ريبرث", "إعادة الولادة"],
+            name: "Rebirth System",
+            type: "Script",
+            place: "ServerScriptService",
+            code: `
+game.Players.PlayerAdded:Connect(function(player)
+
+    local stats = player:WaitForChild("leaderstats")
+
+    local rebirths = stats:FindFirstChild("Rebirths")
+
+    if not rebirths then
+        rebirths = Instance.new("IntValue")
+        rebirths.Name = "Rebirths"
+        rebirths.Value = 0
+        rebirths.Parent = stats
+    end
+
+end)
+
+local function doRebirth(player)
+
+    local stats = player:FindFirstChild("leaderstats")
+    if not stats then return end
+
+    local money = stats:FindFirstChild("Money")
+    local rebirths = stats:FindFirstChild("Rebirths")
+
+    if not money or not rebirths then return end
+
+    local required = 1000 * (2 ^ rebirths.Value)
+
+    if money.Value >= required then
+        money.Value = 0
+        rebirths.Value += 1
+        print(player.Name .. " Rebirth!")
+    end
+
+end
+
+local event = game.ReplicatedStorage:FindFirstChild("RebirthEvent")
+
+if not event then
+    event = Instance.new("RemoteEvent")
+    event.Name = "RebirthEvent"
+    event.Parent = game.ReplicatedStorage
+end
+
+event.OnServerEvent:Connect(doRebirth)
+`
+        },
+
+        {
+            keys: ["checkpoint", "نقطة حفظ", "نقاط الحفظ"],
+            name: "Checkpoint System",
+            type: "Script",
+            place: "داخل SpawnLocation",
+            code: `
+local checkpoint = script.Parent
+
+checkpoint.Touched:Connect(function(hit)
+
+    local character = hit.Parent
+    local player = game.Players:GetPlayerFromCharacter(character)
+
+    if player then
+        player.RespawnLocation = checkpoint
+        print("Checkpoint saved for " .. player.Name)
+    end
+
+end)
+`
+        },
+
+        {
+            keys: ["شراء سرعة", "متجر سرعة", "speed shop"],
+            name: "Speed Shop",
+            type: "Script",
+            place: "داخل Part",
+            code: `
+local part = script.Parent
+
+local prompt = Instance.new("ProximityPrompt")
+prompt.ActionText = "Buy Speed"
+prompt.ObjectText = "Speed Shop"
+prompt.Parent = part
+
+prompt.Triggered:Connect(function(player)
+
+    local stats = player:FindFirstChild("leaderstats")
+    if not stats then return end
+
+    local money = stats:FindFirstChild("Money")
+    local character = player.Character
+
+    if not money or not character then return end
+
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if not humanoid then return end
+
+    local price = 100
+
+    if money.Value >= price then
+        money.Value -= price
+        humanoid.WalkSpeed += 5
+    end
+
+end)
+`
+        },
 
 // ======================================
 // إصلاح بعض الأخطاء البسيطة

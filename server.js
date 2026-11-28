@@ -111,37 +111,32 @@ function checkScript(code) {
 // ======================================
 
 function createScript(message) {
-
     const text = message.toLowerCase();
 
     const scripts = [
-
         {
-            keys: ["leaderstats", "لوحة", "فلوس", "نقاط"],
-            name: "Leaderstats",
+            keys: ["فلوس", "leaderstats", "لوحة"],
+            name: "Money System",
             type: "Script",
             place: "ServerScriptService",
             code: `
 game.Players.PlayerAdded:Connect(function(player)
-
-    local leaderstats = Instance.new("Folder")
-    leaderstats.Name = "leaderstats"
-    leaderstats.Parent = player
+    local stats = Instance.new("Folder")
+    stats.Name = "leaderstats"
+    stats.Parent = player
 
     local money = Instance.new("IntValue")
     money.Name = "Money"
     money.Value = 0
-    money.Parent = leaderstats
+    money.Parent = stats
 
     local wins = Instance.new("IntValue")
     wins.Name = "Wins"
     wins.Value = 0
-    wins.Parent = leaderstats
-
+    wins.Parent = stats
 end)
 `
         },
-
         {
             keys: ["سرعة", "speed"],
             name: "Speed Pad",
@@ -151,60 +146,44 @@ end)
 local part = script.Parent
 
 part.Touched:Connect(function(hit)
-
     local humanoid = hit.Parent:FindFirstChildOfClass("Humanoid")
-
     if humanoid then
         humanoid.WalkSpeed = 40
     end
-
 end)
 `
         },
-
         {
             keys: ["قتل", "kill brick", "موت"],
             name: "Kill Brick",
             type: "Script",
             place: "داخل Part",
             code: `
-local part = script.Parent
-
-part.Touched:Connect(function(hit)
-
+script.Parent.Touched:Connect(function(hit)
     local humanoid = hit.Parent:FindFirstChildOfClass("Humanoid")
-
     if humanoid then
         humanoid.Health = 0
     end
-
 end)
 `
         },
-
         {
             keys: ["قفز", "jump"],
             name: "Jump Pad",
             type: "Script",
             place: "داخل Part",
             code: `
-local part = script.Parent
-
-part.Touched:Connect(function(hit)
-
+script.Parent.Touched:Connect(function(hit)
     local humanoid = hit.Parent:FindFirstChildOfClass("Humanoid")
-
     if humanoid then
         humanoid.JumpPower = 100
         humanoid.Jump = true
     end
-
 end)
 `
         },
-
         {
-            keys: ["عملات", "coin", "عملة"],
+            keys: ["عملة", "عملات", "coin"],
             name: "Coin",
             type: "Script",
             place: "داخل Part العملة",
@@ -213,11 +192,9 @@ local coin = script.Parent
 local collected = false
 
 coin.Touched:Connect(function(hit)
-
     if collected then return end
 
     local player = game.Players:GetPlayerFromCharacter(hit.Parent)
-
     if not player then return end
 
     local stats = player:FindFirstChild("leaderstats")
@@ -228,11 +205,9 @@ coin.Touched:Connect(function(hit)
         money.Value += 10
         coin:Destroy()
     end
-
 end)
 `
         },
-
         {
             keys: ["زر", "button"],
             name: "GUI Button",
@@ -242,15 +217,12 @@ end)
 local button = script.Parent
 
 button.MouseButton1Click:Connect(function()
-
     print("تم الضغط على الزر!")
-
 end)
 `
         },
-
         {
-            keys: ["اختفاء", "شفاف", "fade"],
+            keys: ["اختفاء", "شفاف"],
             name: "Disappear Part",
             type: "Script",
             place: "داخل Part",
@@ -259,13 +231,10 @@ local part = script.Parent
 local busy = false
 
 part.Touched:Connect(function(hit)
-
     local humanoid = hit.Parent:FindFirstChildOfClass("Humanoid")
-
     if not humanoid or busy then return end
 
     busy = true
-
     part.Transparency = 1
     part.CanCollide = false
 
@@ -273,55 +242,42 @@ part.Touched:Connect(function(hit)
 
     part.Transparency = 0
     part.CanCollide = true
-
     busy = false
-
 end)
 `
         },
-
         {
-            keys: ["تجديد", "شفاء", "health"],
+            keys: ["شفاء", "صحة", "health"],
             name: "Health Pad",
             type: "Script",
             place: "داخل Part",
             code: `
-local part = script.Parent
-
-part.Touched:Connect(function(hit)
-
+script.Parent.Touched:Connect(function(hit)
     local humanoid = hit.Parent:FindFirstChildOfClass("Humanoid")
-
     if humanoid then
         humanoid.Health = humanoid.MaxHealth
     end
-
 end)
 `
         },
-
         {
-            keys: ["بوابة", "انتقال", "teleport"],
+            keys: ["انتقال", "بوابة", "teleport"],
             name: "Teleport Part",
             type: "Script",
             place: "داخل Part",
             code: `
-local part = script.Parent
 local destination = workspace:WaitForChild("Destination")
 
-part.Touched:Connect(function(hit)
-
+script.Parent.Touched:Connect(function(hit)
     local character = hit.Parent
     local humanoid = character:FindFirstChildOfClass("Humanoid")
 
     if humanoid then
         character:PivotTo(destination.CFrame + Vector3.new(0, 3, 0))
     end
-
 end)
 `
         },
-
         {
             keys: ["انفجار", "bomb"],
             name: "Explosion",
@@ -331,23 +287,18 @@ end)
 local part = script.Parent
 
 part.Touched:Connect(function(hit)
-
     local humanoid = hit.Parent:FindFirstChildOfClass("Humanoid")
 
     if humanoid then
-
         local explosion = Instance.new("Explosion")
         explosion.Position = part.Position
         explosion.BlastRadius = 10
         explosion.BlastPressure = 0
         explosion.Parent = workspace
-
     end
-
 end)
 `
         },
-
         {
             keys: ["دوران", "rotate"],
             name: "Rotating Part",
@@ -357,32 +308,25 @@ end)
 local part = script.Parent
 
 while true do
-
     part.CFrame *= CFrame.Angles(0, math.rad(5), 0)
-
     task.wait(0.03)
-
 end
 `
         },
-
         {
             keys: ["إضاءة", "اضاءة", "light"],
             name: "Light Part",
             type: "Script",
             place: "داخل Part",
             code: `
-local part = script.Parent
-
 local light = Instance.new("PointLight")
 light.Brightness = 2
 light.Range = 15
-light.Parent = part
+light.Parent = script.Parent
 `
         },
-
         {
-            keys: ["فتح باب", "باب"],
+            keys: ["باب", "فتح باب"],
             name: "Door",
             type: "Script",
             place: "داخل Part الباب",
@@ -391,13 +335,10 @@ local door = script.Parent
 local opened = false
 
 door.Touched:Connect(function(hit)
-
     local humanoid = hit.Parent:FindFirstChildOfClass("Humanoid")
 
     if humanoid and not opened then
-
         opened = true
-
         door.Transparency = 1
         door.CanCollide = false
 
@@ -405,23 +346,18 @@ door.Touched:Connect(function(hit)
 
         door.Transparency = 0
         door.CanCollide = true
-
         opened = false
-
     end
-
 end)
 `
         },
-
         {
-            keys: ["نقاط خبرة", "xp", "خبرة"],
+            keys: ["خبرة", "xp", "نقاط خبرة"],
             name: "XP System",
             type: "Script",
             place: "ServerScriptService",
             code: `
 game.Players.PlayerAdded:Connect(function(player)
-
     local stats = Instance.new("Folder")
     stats.Name = "leaderstats"
     stats.Parent = player
@@ -437,33 +373,26 @@ game.Players.PlayerAdded:Connect(function(player)
     level.Parent = stats
 
     xp.Changed:Connect(function()
-
         local required = level.Value * 100
 
         if xp.Value >= required then
             xp.Value -= required
             level.Value += 1
         end
-
     end)
-
 end)
 `
         },
-
         {
             keys: ["مكافأة", "جائزة", "reward"],
             name: "Reward Part",
             type: "Script",
             place: "داخل Part",
             code: `
-local part = script.Parent
 local used = {}
 
-part.Touched:Connect(function(hit)
-
+script.Parent.Touched:Connect(function(hit)
     local player = game.Players:GetPlayerFromCharacter(hit.Parent)
-
     if not player or used[player.UserId] then return end
 
     local stats = player:FindFirstChild("leaderstats")
@@ -473,21 +402,104 @@ part.Touched:Connect(function(hit)
         used[player.UserId] = true
         money.Value += 100
     end
-
 end)
 
 game.Players.PlayerRemoving:Connect(function(player)
     used[player.UserId] = nil
 end)
 `
-        }
+        },
+        {
+            keys: ["ريبرث", "rebirth", "إعادة الولادة"],
+            name: "Rebirth System",
+            type: "Script",
+            place: "ServerScriptService",
+            code: `
+local event = game.ReplicatedStorage:FindFirstChild("RebirthEvent")
 
+if not event then
+    event = Instance.new("RemoteEvent")
+    event.Name = "RebirthEvent"
+    event.Parent = game.ReplicatedStorage
+end
+
+game.Players.PlayerAdded:Connect(function(player)
+    local stats = player:WaitForChild("leaderstats")
+
+    local rebirths = Instance.new("IntValue")
+    rebirths.Name = "Rebirths"
+    rebirths.Value = 0
+    rebirths.Parent = stats
+end)
+
+event.OnServerEvent:Connect(function(player)
+    local stats = player:FindFirstChild("leaderstats")
+    if not stats then return end
+
+    local money = stats:FindFirstChild("Money")
+    local rebirths = stats:FindFirstChild("Rebirths")
+
+    if not money or not rebirths then return end
+
+    local required = 1000 * (2 ^ rebirths.Value)
+
+    if money.Value >= required then
+        money.Value = 0
+        rebirths.Value += 1
+    end
+end)
+`
+        },
+        {
+            keys: ["checkpoint", "نقطة حفظ", "نقاط الحفظ"],
+            name: "Checkpoint System",
+            type: "Script",
+            place: "داخل SpawnLocation",
+            code: `
+local checkpoint = script.Parent
+
+checkpoint.Touched:Connect(function(hit)
+    local player = game.Players:GetPlayerFromCharacter(hit.Parent)
+
+    if player then
+        player.RespawnLocation = checkpoint
+    end
+end)
+`
+        },
+        {
+            keys: ["شراء سرعة", "متجر سرعة", "speed shop"],
+            name: "Speed Shop",
+            type: "Script",
+            place: "داخل Part",
+            code: `
+local prompt = Instance.new("ProximityPrompt")
+prompt.ActionText = "Buy Speed"
+prompt.ObjectText = "Speed Shop"
+prompt.Parent = script.Parent
+
+prompt.Triggered:Connect(function(player)
+    local stats = player:FindFirstChild("leaderstats")
+    if not stats then return end
+
+    local money = stats:FindFirstChild("Money")
+    local character = player.Character
+    if not money or not character then return end
+
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if not humanoid then return end
+
+    if money.Value >= 100 then
+        money.Value -= 100
+        humanoid.WalkSpeed += 5
+    end
+end)
+`
+        }
     ];
 
     for (const item of scripts) {
-
         if (item.keys.some(key => text.includes(key))) {
-
             return `
 🛠️ اسم السكربت: ${item.name}
 
@@ -506,10 +518,10 @@ ${item.code.trim()}
 ملاحظة: تأكد من وجود العناصر المطلوبة قبل تشغيله.
 `;
         }
-
     }
 
     return null;
+}
 }        {
             keys: ["rebirth", "ريبرث", "إعادة الولادة"],
             name: "Rebirth System",

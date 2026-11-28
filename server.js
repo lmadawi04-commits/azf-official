@@ -580,119 +580,186 @@ function help() {
 
 function generateReply(message) {
 
-    const original = message.trim();
+    const original = String(message || "").trim();
     const text = original.toLowerCase();
 
     if (!original) {
-        return "اكتب لي وش تحتاج وأنا أساعدك.";
+        return "اكتب طلبك بالتفصيل، وأنا أساعدك خطوة بخطوة. 🛠️";
     }
 
-    if (
-        text.includes("السلام عليكم") ||
-        text === "سلام"
-    ) {
-        return "وعليكم السلام ورحمة الله وبركاته! ❤️ شلونك؟";
+    // التحية
+    if (/السلام عليكم|^سلام$/.test(text)) {
+        return "وعليكم السلام ورحمة الله وبركاته! ❤️\nحياك في AIdev. وش المشروع أو السكربت اللي نشتغل عليه اليوم؟";
     }
 
-    if (
-        text.includes("شلونك") ||
-        text.includes("كيف حالك")
-    ) {
-        return "بخير الحمد لله! وأنت شلونك؟ 😎";
+    if (/شلونك|كيف حالك|كيفك/.test(text)) {
+        return "بخير دامك بخير! 😎 جاهز أساعدك في Roblox Studio وStudio Lite.";
     }
 
-    if (
-        text.includes("من أنت") ||
-        text.includes("من انت")
-    ) {
-        return "أنا AIdev، مساعدك المحلي للبرمجة وصناعة ألعاب Roblox! 🛠️";
+    if (/من أنت|من انت|وش اسمك|اسمك/.test(text)) {
+        return "أنا AIdev، مساعدك في برمجة Roblox وتطوير الألعاب. 🛠️\n\nأعمل حالياً بنظام ردود وقواعد محلية، ولست نموذج ذكاء اصطناعي متصلاً بالإنترنت.";
     }
 
-    if (
-        text.includes("شكرا") ||
-        text.includes("مشكور")
-    ) {
-        return "العفو! بالخدمة دائماً ❤️";
+    if (/شكرا|مشكور|يعطيك العافية/.test(text)) {
+        return "العفو! ❤️ بالخدمة دائماً.";
     }
 
-    if (
-        text.includes("فكرة") ||
-        text.includes("افكار") ||
-        text.includes("أفكار")
-    ) {
-        return "هذه أفكار ألعاب ممكن تطورها:\n\n" +
+    // المساعدة
+    if (text === "/مساعدة" || text.includes("وش تقدر تسوي")) {
+        return help() + "\n\nاكتب طلبك بالتفصيل حتى أقدر أساعدك بشكل أفضل.";
+    }
+
+    // أفكار الألعاب
+    if (/فكرة|افكار|أفكار|اقترح.*ماب/.test(text)) {
+        return "هذه أفكار ألعاب تقدر تطورها:\n\n" +
             ideas.map((idea, i) => `${i + 1}. ${idea}`).join("\n\n");
     }
 
-    if (
-        text.includes("مساعدة") ||
-        text === "/مساعدة"
-    ) {
-        return help();
-    }
+    // فحص السكربت
+    if (text.startsWith("/فحص سكربت") || text.startsWith("/كشف الأخطاء") || text.startsWith("/فحص")) {
 
-    if (
-        text.includes("فحص سكربت") ||
-        text.startsWith("/فحص")
-    ) {
-        return checkScript(original.replace(/^\/فحص سكربت/, "").trim());
-    }
-
-    if (
-        text.startsWith("/كشف الأخطاء")
-    ) {
-        return checkScript(original.replace("/كشف الأخطاء", "").trim());
-    }
-
-    if (
-        text.startsWith("/إصلاح سكربت")
-    ) {
-        const code = original.replace("/إصلاح سكربت", "").trim();
+        const code = original
+            .replace(/^\/فحص سكربت/i, "")
+            .replace(/^\/كشف الأخطاء/i, "")
+            .replace(/^\/فحص/i, "")
+            .trim();
 
         if (!code) {
-            return "أرسل السكربت بعد الأمر حتى أحاول إصلاحه.";
+            return "أرسل الكود بعد الأمر:\n\n/فحص سكربت\n```lua\nضع الكود هنا\n```";
         }
 
-        return repairScript(code).reply;
+        return checkScript(code);
     }
 
-    if (
-        text.startsWith("/شرح سكربت")
-    ) {
-        return "أرسل الكود الذي تريد شرحه. أستطيع مساعدتك في تحديد وظيفة الأجزاء الواضحة منه، لكن التحليل هنا محدود.";
+    // إصلاح السكربت
+    if (text.startsWith("/إصلاح سكربت")) {
+
+        const code = original.replace(/^\/إصلاح سكربت/i, "").trim();
+
+        if (!code) {
+            return "أرسل السكربت ورسالة الخطأ من Output.";
+        }
+
+        return repairScript(code).reply +
+            "\n\nملاحظة: الإصلاح التلقائي محدود حالياً.";
     }
 
-    if (
-        text.startsWith("/تحسين سكربت") ||
-        text.startsWith("/فحص أداء")
-    ) {
-        return "أرسل السكربت وسأفحص بعض الأنماط والمشاكل الشائعة. هذا الفحص المحلي محدود.";
+    // شرح السكربت
+    if (text.startsWith("/شرح سكربت")) {
+
+        const code = original.replace(/^\/شرح سكربت/i, "").trim();
+
+        if (!code) {
+            return "أرسل الكود الذي تريد شرحه.";
+        }
+
+        return "وصلني الكود! نسخة AIdev المحلية لا تملك محلّل Luau كاملاً، لذلك أرسل الجزء الذي تريد فهمه أو وضّح وظيفته حتى أساعدك دون تخمين.";
     }
 
-    if (
-        text.startsWith("/إنشاء سكربت")
-    ) {
-        const result = createScript(
-            original.replace("/إنشاء سكربت", "").trim()
-        );
+    // تحسين الأداء
+    if (text.startsWith("/تحسين سكربت") || text.startsWith("/فحص أداء")) {
+
+        const code = original
+            .replace(/^\/تحسين سكربت/i, "")
+            .replace(/^\/فحص أداء/i, "")
+            .trim();
+
+        if (!code) {
+            return "أرسل السكربت حتى أفحص بعض مشاكل الأداء الشائعة.";
+        }
+
+        const findings = [];
+
+        if (code.includes("while true do") && !code.includes("task.wait")) {
+            findings.push("قد تسبب حلقة while true ضغطاً على الأداء إذا لم تحتوِ على انتظار.");
+        }
+
+        if (code.includes("wait()")) {
+            findings.push("يفضل استخدام task.wait() بدلاً من wait().");
+        }
+
+        if (findings.length > 0) {
+            return "ملاحظات أولية:\n\n" +
+                findings.map((v, i) => `${i + 1}. ${v}`).join("\n\n");
+        }
+
+        return "لم أكتشف مشاكل الأداء الشائعة التي يفحصها النظام. هذا ليس فحصاً كاملاً.";
+    }
+
+    // إنشاء السكربتات
+    if (text.startsWith("/إنشاء سكربت")) {
+
+        const request = original.replace(/^\/إنشاء سكربت/i, "").trim();
+
+        if (!request) {
+            return "اكتب وصف السكربت.\nمثال: /إنشاء سكربت عملات تزيد عند لمس Part";
+        }
+
+        const result = createScript(request);
 
         return result ||
-            "ما عندي قالب جاهز لهذا الطلب حالياً. جرّب وصف نظام بسيط مثل: سكربت سرعة أو عملات أو Leaderstats.";
+            "ما عندي قالب مطابق لهذا الطلب حالياً.\n\nجرّب طلب سكربت عملات أو سرعة أو قفز أو بوابة انتقال أو Leaderstats.";
     }
 
-    if (
-        text.includes("سكربت") ||
-        text.includes("roblox") ||
-        text.includes("lua")
-    ) {
+    // Studio Lite
+    if (/studio lite|استديو لايت|ستوديو لايت/.test(text)) {
+        return "أقدر أساعدك في Studio Lite! 🛠️\n\nهل تريد إضافة Script أو LocalScript؟ أو إنشاء Part أو GUI؟ اشرح لي وش تبي تسوي.";
+    }
+
+    // أماكن السكربتات
+    if (/explorer|اكسبلورر|وين.*احط|مكان.*السكربت/.test(text)) {
+        return "أماكن السكربتات:\n\n" +
+            "• Script: غالباً ServerScriptService.\n" +
+            "• LocalScript: غالباً StarterGui أو StarterPlayerScripts.\n" +
+            "• سكربت القطعة: يمكن وضعه داخل Part.\n\n" +
+            "قل لي وظيفة السكربت وأحدد لك المكان الصحيح.";
+    }
+
+    // الأخطاء
+    if (/output|خطأ|error|ما يشتغل|لا يعمل|خربان/.test(text)) {
+        return "خلّنا نحل المشكلة! 🔍\n\nأرسل لي:\n" +
+            "1. رسالة الخطأ من Output.\n" +
+            "2. السكربت المستخدم.\n" +
+            "3. نوع السكربت.\n" +
+            "4. مكانه في Explorer.";
+    }
+
+    // GUI
+    if (/gui|واجهة|زر|قائمة/.test(text)) {
+        const result = createScript(original);
+
+        return result ||
+            "أقدر أساعدك في تصميم GUI.\n\nاشرح لي شكل الواجهة، والأزرار التي تريدها، وماذا يحدث عند الضغط عليها.";
+    }
+
+    // DataStore
+    if (/datastore|حفظ البيانات|حفظ الفلوس|يحفظ التقدم/.test(text)) {
+        return "نظام DataStore يحفظ بيانات اللاعبين.\n\n" +
+            "يجب استخدامه من Script على السيرفر.\n\n" +
+            "تحتاج إلى:\n" +
+            "1. تحميل البيانات عند دخول اللاعب.\n" +
+            "2. حفظ البيانات عند خروجه.\n" +
+            "3. استخدام pcall لمعالجة الأخطاء.\n\n" +
+            "اكتب القيم التي تريد حفظها مثل Money وWins وRebirths.";
+    }
+
+    // قوالب Roblox
+    if (/leaderstats|فلوس|عملات|نقاط|wins|money/.test(text)) {
+        const result = createScript(original);
+
+        if (result) return result;
+    }
+
+    if (/سكربت|script|roblox|lua|luau/.test(text)) {
+
         const result = createScript(original);
 
         if (result) return result;
 
-        return "أقدر أساعدك بقوالب برمجية محلية محدودة.\n\nجرّب طلب سكربت عملات أو سرعة أو Kill Brick أو Leaderstats.";
+        return "فهمت طلبك! 🛠️\n\nاكتب وصفاً محدداً للسكربت، مثلاً:\nأبي Part إذا لمسه اللاعب تزيد فلوسه 10.\n\nأو اكتب /مساعدة.";
     }
 
-    return "هلا! 😎 أنا AIdev.\n\nأقدر أساعدك في البرمجة بأوامر محلية محدودة، أو أعطيك أفكار مابات.\n\nاكتب /مساعدة لمعرفة الأوامر.";
+    return "هلا! 😎 أنا AIdev.\n\nأقدر أساعدك في Roblox Studio وStudio Lite، وإنشاء السكربتات وفحص الأخطاء الشائعة.\n\nاكتب /مساعدة لمعرفة الأوامر.";
 }
 
 // ======================================
